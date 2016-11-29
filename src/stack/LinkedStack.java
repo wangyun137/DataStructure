@@ -23,7 +23,7 @@ public class LinkedStack<T> implements Stack<T> {
         }
         T item = top.item;
         top = top.next;
-
+        size--;
         return item;
     }
 

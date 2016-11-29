@@ -44,7 +44,9 @@ public class ArrayStack<T> implements Stack<T>{
         if (top == -1) {
             throw new EmptyStackException();
         }
-        return array[top--];
+        T result = array[top];
+        array[top--] = null;
+        return result;
     }
 
     @Override

@@ -6,8 +6,8 @@ package linked;
 public class SingleLinkList<T> {
 
     public static class Node<E> {
-        E item;
-        Node<E> next;
+        public E item;
+        public Node<E> next;
     }
 
     public Node<T> first;

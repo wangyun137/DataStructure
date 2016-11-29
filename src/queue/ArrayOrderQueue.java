@@ -6,47 +6,43 @@ import java.util.EmptyStackException;
 /**
  * Created by wangyun on 16-11-15.
  */
-public class CircleQueue<T> implements Queue<T> {
-    public int itemCount;
-    public int maxSize;
-    public int front;
-    public int rear;
-    public T[] array;
+public class ArrayOrderQueue<T> implements Queue<T> {
+    private int itemCount;
+    private int rear;
+    private int front;
+    private int maxSize;
+    private T[] array;
 
-    public CircleQueue(int capacity, Class<T> type) {
+    public ArrayOrderQueue(int capacity, Class<T> type) {
         if (capacity < 0) {
             throw new IllegalArgumentException("capacity must more than 0");
         }
-        itemCount = 0;
-        maxSize = capacity;
-        front = 0;
         rear = -1;
+        front = 0;
+        maxSize = capacity;
+        itemCount = 0;
         array = (T[]) Array.newInstance(type, maxSize);
     }
 
     @Override
-    public void insert(T value) {
+    public void enqueue(T value) {
         if (isFull()) {
             throw new StackOverflowError();
         }
-        rear = ++rear % maxSize;
-        array[rear] = value;
+        array[++rear] = value;
         itemCount++;
     }
 
     @Override
-    public T remove() {
+    public T dequeue() {
         if (isEmpty()) {
-            throw new EmptyStackException();
+            throw new EmptyQueueException("this queue is empty");
         }
-        front = front % maxSize;
+        T result = array[front];
+        array[front] = null;
+        front++;
         itemCount--;
-        return array[front++];
-    }
-
-    @Override
-    public boolean isFull() {
-        return itemCount == maxSize;
+        return result;
     }
 
     @Override
@@ -59,5 +55,8 @@ public class CircleQueue<T> implements Queue<T> {
         return itemCount;
     }
 
-
+    @Override
+    public boolean isFull() {
+        return itemCount == maxSize;
+    }
 }
